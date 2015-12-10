@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="camera.cam.MainActivity" >
+
+    <item
+        android:id="@+id/opcja1"
+        android:orderInCategory="100"
+        android:title="Opcja 1." />
+    
+      <item
+        android:id="@+id/opcja2"
+        android:orderInCategory="110"
+        android:title="Opcja 2." />
+      
+        <item
+        android:id="@+id/opcja3"
+        android:orderInCategory="120"
+        android:title="Opcja 3." />
+        
+        <item
+        android:id="@+id/opcja4"
+        android:orderInCategory="120"
+        android:title="@string/autor" />
+    
+
+</menu>
