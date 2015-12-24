@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context="camera.cam.DisplayAct" >
+
+    <camera.cam.CustomView
+        android:id="@+id/image"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+
+        android:layout_toLeftOf="@+id/relativeLayout"
+        android:layout_toStartOf="@+id/relativeLayout"
+       />
+
+    <camera.cam.ResultDisplay
+        android:id="@+id/text"
+        android:textSize="32sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/relativeLayout" />
+
+    <RelativeLayout
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:id="@+id/relativeLayout"
+        android:gravity="center"
+        android:background="#212121"
+        android:layout_alignParentEnd="true">
+
+        <camera.cam.buttons.SettingsButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/settings_button"
+            android:background="@drawable/settings_image"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <camera.cam.buttons.UnitButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/unit_button"
+            android:background="@drawable/unit_image"
+            android:layout_above="@+id/settings_button"
+            android:layout_alignLeft="@+id/settings_button"
+            android:layout_alignStart="@+id/settings_button"
+            android:layout_marginBottom="20dp"/>
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

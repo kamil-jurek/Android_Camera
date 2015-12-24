@@ -4,8 +4,11 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <uses-sdk
-        android:minSdkVersion="12"
+        android:minSdkVersion="14"
         android:targetSdkVersion="21" />
 
     <application
@@ -29,6 +32,24 @@
             android:label="@string/title_activity_display" 
             android:screenOrientation="landscape" >
         </activity>
+
+        <activity
+            android:name=".ManualActivity"
+            android:label="@string/manual_activity"
+            android:screenOrientation="landscape" >
+        </activity>
+
+        <activity
+            android:name=".DisplayAct"
+            android:label="Displayact"
+            android:screenOrientation="landscape" >
+        </activity>
+
+        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

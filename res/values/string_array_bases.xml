@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array
+        name="string_array_bases">
+        <item>credit_card_longer</item>
+        <item>credit_card_shorter</item>
+        <item>A4_sheet_longer</item>
+        <item>A4_sheet_shorter</item>
+    </string-array>
+</resources>

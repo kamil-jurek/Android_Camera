@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array
+        name="string_array_units">
+        <item>cm </item>
+        <item>mm </item>
+        <item>inch</item>
+        <item>feet</item>
+    </string-array>
+</resources>

@@ -4,28 +4,38 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:screenOrientation="landscape"
-    android:background="@color/black"
+    android:background="#787878"
     tools:context=".MainActivity" >
 
 	
-	 <Button
+
+
+    <camera.cam.CameraButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/button_camera"
-        android:text="@string/button_camera"
-        android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-         android:textColor="#000000"
-         android:background="#808080"
-         android:allowUndo="true" />
-	 
-	 <Button
+        android:background="@drawable/camera"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/button_directory"
+        android:layout_toStartOf="@+id/button_directory"
+        android:layout_marginRight="50dp" />
+
+    <camera.cam.DirectoryButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/button_directory"
-        android:text="@string/button_directory"
-        android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-         android:textColor="#000000"
-         android:background="#808080"
-         android:layout_marginTop="10dp"
-         android:layout_below="@+id/button_camera"
- />
+        android:background="@drawable/directory"
+        android:layout_alignTop="@+id/button_camera"
+        android:layout_centerHorizontal="true" />
+
+    <camera.cam.ManualButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_manual"
+        android:background="@drawable/question2"
+        android:layout_alignTop="@+id/button_directory"
+        android:layout_toRightOf="@+id/button_directory"
+        android:layout_toEndOf="@+id/button_directory"
+        android:layout_marginLeft="50dp" />
 
 </RelativeLayout>

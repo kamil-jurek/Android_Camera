@@ -6,9 +6,15 @@
     <string name="action_settings">Settings</string>
     <string name="autor">O autorze...</string>
     <string name="button_camera">Camera</string>
+    <string name="manual_activity">Manual</string>
      <string name="button_directory">Directory</string>
     <string name="image_cd_camera">Description of some kind...</string>
     <string name="title_activity_display">DisplayActivity</string>
     <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <string name="manual">Manual: \n
+                          1. Object you wish to measure and the object of known length (Base Item) are in the same picture.\n
+                          2. It is advised to use the Base Item which is closest in size to the object you wish to measure.\n
+                          3. Align the Green pointers to the edges of the Base item and Red Pointers to the edes of the object you want to measure. The length of the object is shown in the bottom right corner of the screen.</string>
 
 </resources>
