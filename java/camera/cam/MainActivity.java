@@ -11,7 +11,7 @@ public class MainActivity extends Activity {
 	public static final int TAKE_PICTURE = 1;
 	public static final int SELECT_PHOTO = 100;
 	CameraButton camBtn;
-	DirectoryButton dirBtn;
+	myImageButton dirBtn;
 	ManualButton manBtn;
 	
 	@Override
@@ -30,9 +30,10 @@ public class MainActivity extends Activity {
 		camBtn.setActivity(this);
 		camBtn.setOnClickListener();
 
-		dirBtn = (DirectoryButton)findViewById(R.id.button_directory);
-		dirBtn.setActivity(this);
-		dirBtn.setOnClickListener();
+		dirBtn = (myImageButton)findViewById(R.id.button_directory);
+		//dirBtn.setActivity(this);
+		//dirBtn.setOnClickListener();
+		dirBtn.setStrategy(new DirectoryListener(this));
 
 		manBtn = (ManualButton)findViewById(R.id.button_manual);
 		manBtn.setActivity(this);

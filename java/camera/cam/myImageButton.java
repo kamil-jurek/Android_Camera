@@ -1,5 +1,6 @@
 package camera.cam;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.util.AttributeSet;
@@ -15,15 +16,19 @@ public class myImageButton extends ImageButton{
         super(context, attrs);
     }
 
+    public void setStrategy(myOnClickListener strategy) {
+        this.onClickLst = strategy;
+        setOnClickListener();
+    }
+
     public void setOnClickListener() {
         buttonEffect(this);
-       super.setOnClickListener(new OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               onClickLst.onClick(v);
-
-           }
-       });
+        super.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickLst.onClick(v);
+            }
+        });
     }
 
     public static void buttonEffect(View button){

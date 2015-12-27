@@ -9,17 +9,21 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import camera.cam.buttons.AddButton;
 import camera.cam.buttons.SettingsButton;
 import camera.cam.buttons.UnitButton;
 import camera.cam.dialogs.BaseDialog;
+import camera.cam.dialogs.PointerDialog;
 import camera.cam.dialogs.UnitDialog;
 import camera.cam.interfaces.NoticeDialogListener;
 
@@ -28,12 +32,16 @@ public class DisplayAct extends Activity implements OnTouchListener, NoticeDialo
     public static final String PREFS_NAME = "MyPrefsFile";
     private CustomView customView;
     public Bitmap bitmap;
-    protected List<Pointer> pointerList;
-    private ResultDisplay observer;
+    public List<Pointer> pointerList;
+    public CustomView observer;
 
     private int baseType;
     private int unitType;
     private String unit;
+
+    private GestureDetector gestureDetector;
+
+    private int index = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,24 +56,31 @@ public class DisplayAct extends Activity implements OnTouchListener, NoticeDialo
         unitType = settings.getInt("unitType", 0);
         unit = settings.getString("unit", "cm");
 
-        SettingsButton setBtn = (SettingsButton)findViewById(R.id.settings_button);
-        setBtn.setActivity(this);
-        setBtn.setOnClickListener();
-
         UnitButton unitBtn = (UnitButton)findViewById(R.id.unit_button);
         unitBtn.setActivity(this);
         unitBtn.setOnClickListener();
+
+        AddButton addBtn = (AddButton)findViewById(R.id.add_button);
+        addBtn.setActivity(this);
+        addBtn.setOnClickListener();
+
+        SettingsButton setBtn = (SettingsButton)findViewById(R.id.settings_button);
+        setBtn.setActivity(this);
+        setBtn.setOnClickListener();
 
         Bundle bundle = getIntent().getExtras();
         Uri selectedImage = (Uri) bundle.get("imageUri");
         getContentResolver().notifyChange(selectedImage, null);
 
+        gestureDetector = new GestureDetector(this, new SingleTapConfirm());
+
         customView.setOnTouchListener(this);
-        observer = (ResultDisplay) findViewById(R.id.text);
+        observer = customView;
 
         pointerList = new ArrayList<>();
         pointerList.add(new BasePointer(50, 250, 150, 250, this, 0, observer,baseType));
         pointerList.add(new Pointer(50, 50, 150, 50, this, 1, observer));
+        //pointerList.add(new Pointer(50, 350, 150, 350, this, 2, observer));
         //pointerList.add(new Pointer(50, 350, 150, 250, this, 2, observer));
 
         try {
@@ -127,34 +142,54 @@ public class DisplayAct extends Activity implements OnTouchListener, NoticeDialo
     public boolean onTouch(View v, MotionEvent event) {
 
         try {
-            Thread.sleep(50);
+            Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        if (gestureDetector.onTouchEvent(event)) {
+            // double tap
+            Toast.makeText(getApplicationContext(), "Double tap",
+                    Toast.LENGTH_LONG).show();
 
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                for (Pointer p : pointerList) {
-                    boolean m = p.checkMoving(event);
-                    if( m == true) {
-                        break;
+            for (int i = 0; i < pointerList.size(); i++) {
+                boolean m = pointerList.get(i).checkMoving(event);
+                if( m == true) {
+                    index = i;
+                    PointerDialog dialogFragment = new PointerDialog();
+                    dialogFragment.show(this.getFragmentManager(), "DialogFragment");
+                    break;
+                }
+            }
+
+
+            return true;
+        } else {
+            // your code for move and drag
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    for (Pointer p : pointerList) {
+                        boolean m = p.checkMoving(event);
+                        if( m == true) {
+                            break;
+                        }
                     }
-                }
 
-                break;
+                    break;
 
-            case MotionEvent.ACTION_MOVE:
-                for (Pointer p : pointerList) {
-                    p.move(event);
-                }
+                case MotionEvent.ACTION_MOVE:
+                    for (Pointer p : pointerList) {
+                        p.move(event);
+                    }
 
-                break;
-            case MotionEvent.ACTION_UP:
-                for (Pointer p : pointerList) {
-                    p.stopMoving(event);
-                }
-                break;
+                    break;
+                case MotionEvent.ACTION_UP:
+                    for (Pointer p : pointerList) {
+                        p.stopMoving(event);
+                    }
+                    break;
+            }
         }
+
 
         return true;
     }
@@ -224,10 +259,33 @@ public class DisplayAct extends Activity implements OnTouchListener, NoticeDialo
             this.unitType = ((UnitDialog) (dialog)).getSelectedItem();
             this.unit = units[unitType];
         }
+
+        if(dialog instanceof PointerDialog) {
+            int selected = ((PointerDialog) (dialog)).getSelectedItem();
+
+            switch (selected) {
+                case 0 : pointerList.get(index).rotateBitmap();
+                    break;
+
+                case 1 : if(index > 1 && index == pointerList.size() - 1)
+                            pointerList.remove(index);
+                    break;
+
+            }
+        }
+        observer.update(0,0,0,0,0);
     }
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
 
+    }
+
+    private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onDoubleTap(MotionEvent event) {
+            return true;
+        }
     }
 }

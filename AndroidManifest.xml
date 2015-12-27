@@ -6,6 +6,10 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -15,7 +19,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" android:allowTaskReparenting="false">
+        android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen">
 
         <activity
             android:name=".MainActivity"
@@ -44,6 +48,13 @@
             android:label="Displayact"
             android:screenOrientation="landscape" >
         </activity>
+
+        <activity
+            android:name=".CamTestActivity"
+            android:label="CamTest"
+            android:screenOrientation="landscape" >
+        </activity>
+
 
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->

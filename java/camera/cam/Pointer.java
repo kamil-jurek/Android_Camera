@@ -5,6 +5,8 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
@@ -12,7 +14,10 @@ import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 public class Pointer implements Subject  {
     private Point point1 = new Point();
@@ -21,6 +26,7 @@ public class Pointer implements Subject  {
     private Boolean moving2 = false;
     private Paint paint;
 
+    private int rotation = 0;
 
     private Observer observer;
 
@@ -33,7 +39,7 @@ public class Pointer implements Subject  {
     //private int pW;
 
     public Activity activity;
-
+    ImageButton imgButton;
     public Pointer(float x1, float y1, float x2, float y2, DisplayAct _activity, int _type, Observer obs) {
         observer = obs;
         observer.register(this);
@@ -47,9 +53,9 @@ public class Pointer implements Subject  {
         this.RANGE = dp2px(50);
 
         this.paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(3);
-        paint.setTextSize(RANGE/2);
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        paint.setStrokeWidth(RANGE / 30);
+        paint.setTextSize(RANGE / 2);
 
         switch (type) {
 
@@ -71,7 +77,7 @@ public class Pointer implements Subject  {
             case 3 :
                 bPoint1 = BitmapFactory.decodeResource(activity.getResources(), R.drawable.point3);
                 bPoint2 = BitmapFactory.decodeResource(activity.getResources(), R.drawable.point3);
-                paint.setColor(0xff0000FF);
+                paint.setColor(0xffff8000);
                 break;
             case 4 :
                 bPoint1 = BitmapFactory.decodeResource(activity.getResources(), R.drawable.point4);
@@ -87,11 +93,26 @@ public class Pointer implements Subject  {
             bPoint1 = Bitmap.createScaledBitmap(bPoint1, RANGE, RANGE, false);
             bPoint2 = Bitmap.createScaledBitmap(bPoint2, RANGE, RANGE, false);
 
-            System.out.println(RANGE);
-            System.out.println(bPoint1.getHeight());
-            System.out.println(bPoint1.getWidth());
+       /*RelativeLayout rel = (RelativeLayout) activity.findViewById(R.id.leyoutRel);
+        imgButton = new ImageButton(activity.getApplicationContext());
+        imgButton.setImageBitmap(bPoint1);
+        rel.addView(imgButton);
+        imgButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(activity.getApplicationContext(), "ImageButton Pressed",
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
 
-            notifyObserver();
+        });*/
+        //imgButton.setVisibility(View.INVISIBLE);
+        //imgButton.setBackgroundColor(Color.TRANSPARENT);
+            /*System.out.println(RANGE);
+            System.out.println(bPoint1.getHeight());
+            System.out.println(bPoint1.getWidth());*/
+
+            //notifyObserver();
     }
 
     public int dp2px(int dp) {
@@ -120,7 +141,7 @@ public class Pointer implements Subject  {
 
         else if(event.getRawX() > point2.x + RANGE/2- RANGE/2 &&
                 event.getRawX() < point2.x + RANGE/2 + RANGE/2 &&
-                event.getRawY() > point2.y + RANGE/2- RANGE/2 &&
+                event.getRawY() > point2.y + RANGE/2 - RANGE/2 &&
                 event.getRawY() < point2.y + RANGE/2 + RANGE/2) {
                     moving1 = false;
                     moving2 = true;
@@ -133,14 +154,15 @@ public class Pointer implements Subject  {
     public void move(MotionEvent event) {
         if (moving1) {
             point1.x = event.getRawX() - RANGE / 2;
-            point1.y = event.getRawY() - RANGE / 2;
-
+            point1.y = event.getRawY();// - RANGE / 2;
+            //imgButton.setX(point1.x);
+            //imgButton.setY(point1.y);
             notifyObserver();
         }
 
        else if (moving2) {
             point2.x = event.getRawX() - RANGE / 2;
-            point2.y = event.getRawY() - RANGE / 2;
+            point2.y = event.getRawY();// - RANGE / 2;
 
             notifyObserver();
         }
@@ -161,6 +183,20 @@ public class Pointer implements Subject  {
 
     public Bitmap getPoint2Bitmap() {
         return this.bPoint2;
+    }
+
+    public void rotateBitmap() {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+
+        bPoint1 = Bitmap.createBitmap(bPoint1 , 0, 0, bPoint1.getWidth(), bPoint1.getHeight(), matrix, true);
+        bPoint2 = Bitmap.createBitmap(bPoint2 , 0, 0, bPoint2.getWidth(), bPoint2.getHeight(), matrix, true);
+
+        rotation = (rotation + 1) % 4;
+    }
+
+    public int getRotation() {
+        return this.rotation;
     }
 
     public float getPoint1X() {

@@ -2,7 +2,6 @@ package camera.cam;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Camera;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -12,8 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static android.support.v4.app.ActivityCompat.startActivityForResult;
 
 public class CameraListener implements  myOnClickListener{
 

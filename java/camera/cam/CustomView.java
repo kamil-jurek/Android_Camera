@@ -19,7 +19,7 @@ public class CustomView extends SurfaceView implements Runnable, Observer {
     private ArrayList<Subject> subjects;
     protected Canvas canvas;
     private Paint paint;
-    private String str = " elo";
+    private String str = "  ";
     private boolean updated = true;
 
     public CustomView(Context context)
@@ -60,6 +60,10 @@ public class CustomView extends SurfaceView implements Runnable, Observer {
                 continue;
             }
 
+            if(updated == false) {
+                continue;
+            }
+
             canvas = holder.lockCanvas();
 
             int cx = (this.getWidth() - activity.bitmap.getWidth()) >> 1; // same as (...) / 2
@@ -71,29 +75,63 @@ public class CustomView extends SurfaceView implements Runnable, Observer {
                 canvas.drawBitmap(p.getPoint1Bitmap(), p.getPoint1X(), p.getPoint1Y(), null);
                 canvas.drawBitmap(p.getPoint2Bitmap(), p.getPoint2X(), p.getPoint2Y(), null);
 
-                float x1 = p.getPoint1X() + p.getRange() / 2;
-                float y1 = p.getPoint1Y() + p.getRange() - p.RANGE/20;
+                float x1,x2,y1,y2;
+                switch (p.getRotation()) {
+                    case 0 : x1 = p.getPoint1X() + p.getRange() / 2;
+                             y1 = p.getPoint1Y() + p.getRange() - p.RANGE/20;
+                             x2 = p.getPoint2X() + p.getRange() / 2;
+                             y2 = p.getPoint2Y() + p.getRange() - p.RANGE/20;
+                        break;
+                    case 1 : x1 = p.getPoint1X() + p.RANGE/20;
+                             y1 = p.getPoint1Y() + p.getRange()/2;
+                             x2 = p.getPoint2X() + p.RANGE/20;
+                             y2 = p.getPoint2Y() + p.getRange()/2;
+                    break;
 
-                float x2 = p.getPoint2X() + p.getRange() / 2;
-                float y2 = p.getPoint2Y() + p.getRange() - p.RANGE/20;
+                    case 2 :  x1 = p.getPoint1X() + p.getRange()/2;
+                              y1 = p.getPoint1Y() + p.RANGE/20;
+                              x2 = p.getPoint2X() + p.getRange()/2;
+                              y2 = p.getPoint2Y() + p.RANGE/20;
+                    break;
+
+                    case 3 :  x1 = p.getPoint1X() + p.getRange() - p.RANGE/20;
+                              y1 = p.getPoint1Y() + p.getRange()/2;
+                              x2 = p.getPoint2X() + p.getRange() - p.RANGE/20;
+                              y2 = p.getPoint2Y() + p.getRange()/2;
+                        break;
+
+                    default : x1 = p.getPoint1X() + p.getRange() / 2;
+                        y1 = p.getPoint1Y() + p.getRange() - p.RANGE/20;
+                        x2 = p.getPoint2X() + p.getRange() / 2;
+                        y2 = p.getPoint2Y() + p.getRange() - p.RANGE/20;
+                        break;
+
+                }
+
 
                 Path pa = new Path();
                 pa.moveTo(x1, y1);
                 pa.lineTo(x2, y2);
+
+                //Path pat = new Path();
+                //pat.moveTo(x1-p.getRange()/2, y1+p.getRange()/2);
+                //pat.lineTo(x2+p.getRange()/2, y2+p.getRange()/2);
                 //canvas.drawCircle(p.getPoint1X()+p.RANGE/2,p.getPoint1Y()+p.RANGE/2,p.RANGE/2,p.getPaint());
                 canvas.drawPath(pa, p.getPaint());
                 //canvas.drawLine(p.getPoint1X() + p.getRange() / 2, p.getPoint1Y() + p.getRange() - 3, p.getPoint2X() + p.getRange() / 2, p.getPoint2Y() + p.getRange()-3,p.getPaint());
                 if(p.getType()==0) {
                     // canvas.drawTextOnPath("karta kredytowa", pa, (float) Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2))/2-80,-5,paint);
                 } else {
-                    canvas.drawTextOnPath(calcSize((BasePointer)(activity.pointerList.get(0)),activity.getUnit()), pa, (float) Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2))/2-60,-5,p.getPaint());
+                    canvas.drawTextOnPath(calcSize((BasePointer)(activity.pointerList.get(0)), p, activity.getUnit()), pa, (float) Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2))/2-60,-5,p.getPaint());
+                    //canvas.drawTextOnPath(str, pa, (float) Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2))/2-60,-5,p.getPaint());
                 }
             }
+
 
             //canvas.drawBitmap(activity.pointer,activity.x-activity.pointer.getWidth()/2,activity.y-activity.pointer.getHeight()/2,null);
 
             holder.unlockCanvasAndPost(canvas);
-
+            updated = false;
         }
     }
 
@@ -140,25 +178,19 @@ public class CustomView extends SurfaceView implements Runnable, Observer {
 
     @Override
     public void update(int type, double x1, double y1, double x2, double y2) {
-       // str = calcSize(type);
-        //updated = true;
+        //str = calcSize((BasePointer)activity.pointerList.get(0), activity.pointerList.get(type),activity.getUnit());
+        updated = true;
     }
 
-    private String calcSize(BasePointer base, String unit) {
+    private String calcSize(BasePointer base, Pointer p, String unit) {
         String calculatedSize = " ";
 
         double C = base.getBaseSize();
-        //double card = Math.sqrt(Math.pow(point4.getX()-point3.getX(), 2) + Math.pow(point4.getY()-point3.getY(), 2));
-        //double obj = Math.sqrt(Math.pow(point2.getX()-point1.getX(), 2) + Math.pow(point2.getY()-point1.getY(), 2));
-
-        // double card = Math.sqrt(Math.pow(this.cardX2-this.cardX1, 2) + Math.pow(this.cardY2-this.cardY1, 2));
-        //double obj = Math.sqrt(Math.pow(X2-X1, 2) + Math.pow(Y2-Y1, 2));
 
         double bas = Math.sqrt(Math.pow(base.getPoint2X() - base.getPoint1X(), 2) +
                                 Math.pow(base.getPoint2Y() - base.getPoint1Y(), 2));
 
-        double obj = Math.sqrt(Math.pow(activity.pointerList.get(1).getPoint2X() - activity.pointerList.get(1).getPoint1X(), 2) +
-                               Math.pow(activity.pointerList.get(1).getPoint2Y() - activity.pointerList.get(1).getPoint1Y(), 2));
+        double obj = Math.sqrt(Math.pow(p.getPoint2X() - p.getPoint1X(), 2) + Math.pow(p.getPoint2Y() - p.getPoint1Y(), 2));
 
         double x = (C * obj) / bas;
 

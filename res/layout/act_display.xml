@@ -3,6 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:background="@color/black"
+    android:id="@+id/leyoutRel"
     tools:context="camera.cam.DisplayAct" >
 
     <camera.cam.CustomView
@@ -37,18 +38,26 @@
             android:layout_height="40dp"
             android:id="@+id/settings_button"
             android:background="@drawable/settings_image"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_below="@+id/unit_button"
+            android:layout_alignLeft="@+id/unit_button"
+            android:layout_marginTop="20dp" />
 
         <camera.cam.buttons.UnitButton
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/unit_button"
             android:background="@drawable/unit_image"
-            android:layout_above="@+id/settings_button"
-            android:layout_alignLeft="@+id/settings_button"
-            android:layout_alignStart="@+id/settings_button"
-            android:layout_marginBottom="20dp"/>
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
+
+        <camera.cam.buttons.AddButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/add_button"
+            android:background="@drawable/add_point_image"
+            android:layout_above="@+id/unit_button"
+            android:layout_alignLeft="@+id/unit_button"
+            android:layout_marginBottom="20dp" />
     </RelativeLayout>
 
 

@@ -11,7 +11,7 @@ import camera.cam.DisplayAct;
 import camera.cam.R;
 import camera.cam.interfaces.NoticeDialogListener;
 
-public class UnitDialog  extends DialogFragment {
+public class PointerDialog  extends DialogFragment {
 
     private int mSelectedItem;
 
@@ -42,27 +42,16 @@ public class UnitDialog  extends DialogFragment {
         mSelectedItem = 0;
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Chose unit:")
-                .setSingleChoiceItems(R.array.string_array_units, ((DisplayAct)mListener).getUnitType(),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // The 'which' argument contains the index position
-                                // of the selected item
-                                mSelectedItem = which;
-                            }
-                        })
+        builder.setItems(R.array.string_array_pointer_options, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // The 'which' argument contains the index position
+                // of the selected item
+                mSelectedItem = which;
+                mListener.onDialogPositiveClick(PointerDialog.this);
+            }
+        });
 
-                .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        mListener.onDialogPositiveClick(UnitDialog.this);
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                        mListener.onDialogNegativeClick(UnitDialog.this);
-                    }
-                });
+
         // Create the AlertDialog object and return it
         return builder.create();
     }

@@ -12,6 +12,7 @@ public class CameraButton extends myImageButton {
 
     private Activity activity;
     private CameraListener camLst;
+
     public void setActivity(Activity act) {
         this.activity = act;
         camLst = new CameraListener(activity);
