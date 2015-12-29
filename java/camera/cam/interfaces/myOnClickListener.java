@@ -1,4 +1,4 @@
-package camera.cam;
+package camera.cam.interfaces;
 
 import android.view.View;
 

@@ -7,6 +7,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import camera.cam.interfaces.Observer;
+import camera.cam.interfaces.Subject;
+
 public class ResultDisplay extends TextView implements Observer {
 
     private ArrayList<Subject> subjects;

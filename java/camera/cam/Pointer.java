@@ -5,28 +5,27 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-public class Pointer implements Subject  {
+import camera.cam.interfaces.Observer;
+import camera.cam.interfaces.Statelike;
+import camera.cam.interfaces.Subject;
+
+public class Pointer implements Subject {
     private Point point1 = new Point();
     private Point point2 = new Point();
+
     private Boolean moving1 = false;
     private Boolean moving2 = false;
+
     private Paint paint;
 
     private int rotation = 0;
+    private Statelike myState;
 
     private Observer observer;
 
@@ -35,19 +34,19 @@ public class Pointer implements Subject  {
 
     int type;
     public int RANGE = 100;
-    //private int pH;
-    //private int pW;
 
-    public Activity activity;
-    ImageButton imgButton;
-    public Pointer(float x1, float y1, float x2, float y2, DisplayAct _activity, int _type, Observer obs) {
+    public DisplayActivity activity;
+
+    public Pointer(float x1, float y1, float x2, float y2, DisplayActivity _activity, int _type, Observer obs) {
         observer = obs;
         observer.register(this);
 
         this.point1.set(x1, y1);
         this.point2.set(x2, y2);
 
-        type = _type;
+        this.type = _type;
+
+        setState(new StateTop());
 
         this.activity = _activity;
         this.RANGE = dp2px(50);
@@ -93,26 +92,23 @@ public class Pointer implements Subject  {
             bPoint1 = Bitmap.createScaledBitmap(bPoint1, RANGE, RANGE, false);
             bPoint2 = Bitmap.createScaledBitmap(bPoint2, RANGE, RANGE, false);
 
-       /*RelativeLayout rel = (RelativeLayout) activity.findViewById(R.id.leyoutRel);
-        imgButton = new ImageButton(activity.getApplicationContext());
-        imgButton.setImageBitmap(bPoint1);
-        rel.addView(imgButton);
-        imgButton.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Toast.makeText(activity.getApplicationContext(), "ImageButton Pressed",
-                        Toast.LENGTH_LONG).show();
-                return false;
-            }
+    }
 
-        });*/
-        //imgButton.setVisibility(View.INVISIBLE);
-        //imgButton.setBackgroundColor(Color.TRANSPARENT);
-            /*System.out.println(RANGE);
-            System.out.println(bPoint1.getHeight());
-            System.out.println(bPoint1.getWidth());*/
+    /**
+     * Setter method for the state.
+     * Normally only called by classes implementing the State interface.
+     * @param newState the new state of this context
+     */
+    void setState(final Statelike newState) {
+        myState = newState;
+    }
 
-            //notifyObserver();
+    public void drawPointer(Canvas canvas) {
+        myState.drawPointer(canvas, this);
+    }
+
+    public void setNewCoordinates(MotionEvent event) {
+        myState.setNewCoordinates(this,event);
     }
 
     public int dp2px(int dp) {
@@ -152,25 +148,30 @@ public class Pointer implements Subject  {
     }
 
     public void move(MotionEvent event) {
-        if (moving1) {
-            point1.x = event.getRawX() - RANGE / 2;
-            point1.y = event.getRawY();// - RANGE / 2;
-            //imgButton.setX(point1.x);
-            //imgButton.setY(point1.y);
-            notifyObserver();
-        }
-
-       else if (moving2) {
-            point2.x = event.getRawX() - RANGE / 2;
-            point2.y = event.getRawY();// - RANGE / 2;
-
-            notifyObserver();
-        }
+        setNewCoordinates(event);
     }
 
     public void stopMoving(MotionEvent event) {
                 moving1 = false;
                 moving2 = false;
+    }
+
+    public boolean getMoving1() {
+        return moving1;
+    }
+
+    public boolean getMoving2() {
+        return moving2;
+    }
+
+    public void setPoint1(float x, float y) {
+        this.point1.x = x;
+        this.point1.y = y;
+    }
+
+    public void setPoint2(float x, float y) {
+        this.point2.x = x;
+        this.point2.y = y;
     }
 
     public int getRange() {
@@ -193,6 +194,17 @@ public class Pointer implements Subject  {
         bPoint2 = Bitmap.createBitmap(bPoint2 , 0, 0, bPoint2.getWidth(), bPoint2.getHeight(), matrix, true);
 
         rotation = (rotation + 1) % 4;
+        switch (rotation) {
+            case 0 : setState(new StateTop());
+                break;
+            case 1 : setState(new StateRight());
+                break;
+            case 2 : setState(new StateBottom());
+                break;
+            case 3 : setState(new StateLeft());
+                break;
+
+        }
     }
 
     public int getRotation() {

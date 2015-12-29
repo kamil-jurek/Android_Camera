@@ -1,8 +1,10 @@
 package camera.cam;
 
+import camera.cam.interfaces.Observer;
+
 public class BasePointer extends Pointer {
     private float size;
-    public BasePointer(float x1, float y1, float x2, float y2, DisplayAct _activity, int _type, Observer obs, int baseType) {
+    public BasePointer(float x1, float y1, float x2, float y2, DisplayActivity _activity, int _type, Observer obs, int baseType) {
         super(x1, y1, x2, y2, _activity, _type, obs);
 
         switch(baseType) {

@@ -1,12 +1,13 @@
-package camera.cam;
+package camera.cam.buttons;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
+
+import camera.cam.interfaces.myOnClickListener;
 
 public class myImageButton extends ImageButton{
 
@@ -19,6 +20,10 @@ public class myImageButton extends ImageButton{
     public void setStrategy(myOnClickListener strategy) {
         this.onClickLst = strategy;
         setOnClickListener();
+    }
+
+    public myOnClickListener getStrategy() {
+        return this.onClickLst;
     }
 
     public void setOnClickListener() {

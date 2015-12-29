@@ -1,8 +1,11 @@
-package camera.cam;
+package camera.cam.listeners;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
+
+import camera.cam.MainActivity;
+import camera.cam.interfaces.myOnClickListener;
 
 public class DirectoryListener implements myOnClickListener {
 

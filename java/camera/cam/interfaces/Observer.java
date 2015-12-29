@@ -1,4 +1,4 @@
-package camera.cam;
+package camera.cam.interfaces;
 
 public interface Observer {
     void register(Subject o);

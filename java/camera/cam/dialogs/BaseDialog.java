@@ -7,7 +7,7 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import camera.cam.DisplayAct;
+import camera.cam.DisplayActivity;
 import camera.cam.R;
 import camera.cam.interfaces.NoticeDialogListener;
 
@@ -40,10 +40,11 @@ public class BaseDialog  extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         mSelectedItem = 0;
+
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Chose reference object:")
-                .setSingleChoiceItems(R.array.string_array_bases, ((DisplayAct)mListener).getBaseType(),
+                .setSingleChoiceItems(R.array.string_array_bases, ((DisplayActivity)mListener).getBaseType(),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // The 'which' argument contains the index position

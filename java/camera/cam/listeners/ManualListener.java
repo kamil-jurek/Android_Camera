@@ -1,10 +1,13 @@
-package camera.cam;
+package camera.cam.listeners;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 
-public class ManualListener implements  myOnClickListener {
+import camera.cam.ManualActivity;
+import camera.cam.interfaces.myOnClickListener;
+
+public class ManualListener implements myOnClickListener {
     private Activity activity;
 
     public ManualListener(Activity act) {

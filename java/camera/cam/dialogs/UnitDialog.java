@@ -7,7 +7,7 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import camera.cam.DisplayAct;
+import camera.cam.DisplayActivity;
 import camera.cam.R;
 import camera.cam.interfaces.NoticeDialogListener;
 
@@ -43,7 +43,7 @@ public class UnitDialog  extends DialogFragment {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Chose unit:")
-                .setSingleChoiceItems(R.array.string_array_units, ((DisplayAct)mListener).getUnitType(),
+                .setSingleChoiceItems(R.array.string_array_units, ((DisplayActivity)mListener).getUnitType(),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // The 'which' argument contains the index position

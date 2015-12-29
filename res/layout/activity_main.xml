@@ -10,7 +10,7 @@
 	
 
 
-    <camera.cam.CameraButton
+    <camera.cam.buttons.myImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button_camera"
@@ -20,7 +20,7 @@
         android:layout_toStartOf="@+id/button_directory"
         android:layout_marginRight="50dp" />
 
-    <camera.cam.myImageButton
+    <camera.cam.buttons.myImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button_directory"
@@ -28,7 +28,7 @@
         android:layout_alignTop="@+id/button_camera"
         android:layout_centerHorizontal="true" />
 
-    <camera.cam.ManualButton
+    <camera.cam.buttons.myImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button_manual"

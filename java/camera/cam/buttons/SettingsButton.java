@@ -5,7 +5,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import camera.cam.listeners.SettingsListener;
-import camera.cam.myImageButton;
 
 public class SettingsButton extends myImageButton {
 

@@ -1,8 +1,10 @@
 package camera.cam;
 
-import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
@@ -11,11 +13,14 @@ import android.view.SurfaceView;
 
 import java.util.ArrayList;
 
+import camera.cam.interfaces.Observer;
+import camera.cam.interfaces.Subject;
+
 public class CustomView extends SurfaceView implements Runnable, Observer {
     private Thread thread = null;
     private SurfaceHolder holder;
     private boolean isItOK = false;
-    private DisplayAct activity;
+    private DisplayActivity activity;
     private ArrayList<Subject> subjects;
     protected Canvas canvas;
     private Paint paint;
@@ -38,7 +43,7 @@ public class CustomView extends SurfaceView implements Runnable, Observer {
         init();
     }
 
-    public void setActivity(DisplayAct a) {
+    public void setActivity(DisplayActivity a) {
         this.activity = a;
     }
     public void init() {
@@ -69,66 +74,12 @@ public class CustomView extends SurfaceView implements Runnable, Observer {
             int cx = (this.getWidth() - activity.bitmap.getWidth()) >> 1; // same as (...) / 2
             int cy = (this.getHeight() - activity.bitmap.getHeight()) >> 1;
             canvas.drawARGB(150, 0, 0, 0);
-            canvas.drawBitmap(activity.bitmap,cx,cy,null);
+            canvas.drawBitmap(activity.bitmap, cx, cy, null);
 
             for (Pointer p : activity.pointerList) {
-                canvas.drawBitmap(p.getPoint1Bitmap(), p.getPoint1X(), p.getPoint1Y(), null);
-                canvas.drawBitmap(p.getPoint2Bitmap(), p.getPoint2X(), p.getPoint2Y(), null);
+                p.drawPointer(canvas);
 
-                float x1,x2,y1,y2;
-                switch (p.getRotation()) {
-                    case 0 : x1 = p.getPoint1X() + p.getRange() / 2;
-                             y1 = p.getPoint1Y() + p.getRange() - p.RANGE/20;
-                             x2 = p.getPoint2X() + p.getRange() / 2;
-                             y2 = p.getPoint2Y() + p.getRange() - p.RANGE/20;
-                        break;
-                    case 1 : x1 = p.getPoint1X() + p.RANGE/20;
-                             y1 = p.getPoint1Y() + p.getRange()/2;
-                             x2 = p.getPoint2X() + p.RANGE/20;
-                             y2 = p.getPoint2Y() + p.getRange()/2;
-                    break;
-
-                    case 2 :  x1 = p.getPoint1X() + p.getRange()/2;
-                              y1 = p.getPoint1Y() + p.RANGE/20;
-                              x2 = p.getPoint2X() + p.getRange()/2;
-                              y2 = p.getPoint2Y() + p.RANGE/20;
-                    break;
-
-                    case 3 :  x1 = p.getPoint1X() + p.getRange() - p.RANGE/20;
-                              y1 = p.getPoint1Y() + p.getRange()/2;
-                              x2 = p.getPoint2X() + p.getRange() - p.RANGE/20;
-                              y2 = p.getPoint2Y() + p.getRange()/2;
-                        break;
-
-                    default : x1 = p.getPoint1X() + p.getRange() / 2;
-                        y1 = p.getPoint1Y() + p.getRange() - p.RANGE/20;
-                        x2 = p.getPoint2X() + p.getRange() / 2;
-                        y2 = p.getPoint2Y() + p.getRange() - p.RANGE/20;
-                        break;
-
-                }
-
-
-                Path pa = new Path();
-                pa.moveTo(x1, y1);
-                pa.lineTo(x2, y2);
-
-                //Path pat = new Path();
-                //pat.moveTo(x1-p.getRange()/2, y1+p.getRange()/2);
-                //pat.lineTo(x2+p.getRange()/2, y2+p.getRange()/2);
-                //canvas.drawCircle(p.getPoint1X()+p.RANGE/2,p.getPoint1Y()+p.RANGE/2,p.RANGE/2,p.getPaint());
-                canvas.drawPath(pa, p.getPaint());
-                //canvas.drawLine(p.getPoint1X() + p.getRange() / 2, p.getPoint1Y() + p.getRange() - 3, p.getPoint2X() + p.getRange() / 2, p.getPoint2Y() + p.getRange()-3,p.getPaint());
-                if(p.getType()==0) {
-                    // canvas.drawTextOnPath("karta kredytowa", pa, (float) Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2))/2-80,-5,paint);
-                } else {
-                    canvas.drawTextOnPath(calcSize((BasePointer)(activity.pointerList.get(0)), p, activity.getUnit()), pa, (float) Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2))/2-60,-5,p.getPaint());
-                    //canvas.drawTextOnPath(str, pa, (float) Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2))/2-60,-5,p.getPaint());
-                }
             }
-
-
-            //canvas.drawBitmap(activity.pointer,activity.x-activity.pointer.getWidth()/2,activity.y-activity.pointer.getHeight()/2,null);
 
             holder.unlockCanvasAndPost(canvas);
             updated = false;
@@ -211,4 +162,5 @@ public class CustomView extends SurfaceView implements Runnable, Observer {
         return calculatedSize;
 
     }
+
 }

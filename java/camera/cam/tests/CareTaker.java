@@ -1,4 +1,6 @@
-package camera.cam;
+package camera.cam.tests;
+
+import camera.cam.DisplayActivity;
 
 /**
  * Created by Lenovo-Y580 on 16.12.2015.

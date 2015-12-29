@@ -4,15 +4,15 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Toast;
 
-import camera.cam.DisplayAct;
+import camera.cam.DisplayActivity;
 import camera.cam.Pointer;
-import camera.cam.myOnClickListener;
+import camera.cam.interfaces.myOnClickListener;
 
 public class AddListener implements myOnClickListener {
 
-    private DisplayAct activity;
+    private DisplayActivity activity;
 
-    public AddListener(DisplayAct act) {
+    public AddListener(DisplayActivity act) {
         this.activity = act;
     }
 

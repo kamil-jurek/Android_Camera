@@ -1,4 +1,4 @@
-package camera.cam;
+package camera.cam.listeners;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,7 +12,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CameraListener implements  myOnClickListener{
+import camera.cam.MainActivity;
+import camera.cam.interfaces.myOnClickListener;
+
+public class CameraListener implements myOnClickListener {
 
     private Activity activity;
     private String mCurrentPhotoPath;

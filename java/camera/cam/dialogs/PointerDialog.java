@@ -7,7 +7,6 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import camera.cam.DisplayAct;
 import camera.cam.R;
 import camera.cam.interfaces.NoticeDialogListener;
 

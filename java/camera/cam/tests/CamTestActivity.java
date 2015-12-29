@@ -1,4 +1,4 @@
-package camera.cam;
+package camera.cam.tests;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,6 +30,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+
+import camera.cam.tests.Preview;
+import camera.cam.R;
 
 public class CamTestActivity extends Activity {
     private static final String TAG = "CamTestActivity";

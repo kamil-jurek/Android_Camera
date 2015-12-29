@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.view.View;
 
 import camera.cam.dialogs.BaseDialog;
-import camera.cam.myOnClickListener;
+import camera.cam.interfaces.myOnClickListener;
 
 public class SettingsListener implements myOnClickListener {
 

@@ -1,18 +1,16 @@
-package camera.cam;
-
-import java.io.IOException;
-import java.util.List;
+package camera.cam.tests;
 
 import android.content.Context;
-import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.io.IOException;
+import java.util.List;
 
 class Preview extends ViewGroup implements SurfaceHolder.Callback {
     private final String TAG = "Preview";
