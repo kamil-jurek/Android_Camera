@@ -20,11 +20,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import camera.cam.buttons.myImageButton;
-import camera.cam.dialogs.BaseDialog;
-import camera.cam.dialogs.PointerDialog;
-import camera.cam.dialogs.UnitDialog;
+import camera.cam.dialogs.ChooseBaseDialog;
+import camera.cam.dialogs.NewBaseDialog;
+import camera.cam.dialogs.PointerOptionsDialog;
+import camera.cam.dialogs.ChooseUnitDialog;
 import camera.cam.interfaces.NoticeDialogListener;
 import camera.cam.listeners.AddListener;
+import camera.cam.listeners.AddNewBaseListener;
 import camera.cam.listeners.SettingsListener;
 import camera.cam.listeners.UnitListener;
 import camera.cam.listeners.ZoomListener;
@@ -47,6 +49,15 @@ public class DisplayActivity extends Activity implements OnTouchListener, Notice
 
 	private int index = 1;
 
+	public String[] basesNames = {"Credit card(longer side)",
+			                      "Credit card(shorter side)",
+			                      "A4 sheet(longer side)",
+								  "A4 sheet(shorter side)"};
+	public float[] basesValues = {8.56F,
+								  5.398F,
+								29.7F,
+								21.0F};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,10 +67,16 @@ public class DisplayActivity extends Activity implements OnTouchListener, Notice
 		//SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 		//settings.edit().clear().commit();
 		// Restore preferences
-		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-		baseType = settings.getInt("baseType", 0);
+		//SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+		/*baseType = settings.getInt("baseType", 0);
 		unitType = settings.getInt("unitType", 0);
-		unit = settings.getString("unit", "cm");
+		unit = settings.getString("unit", "cm");*/
+
+		/*Calculations.saveBaseNameArray(basesNames, "names", this);
+		Calculations.saveBaseValueArray(basesValues, "values", this);
+
+		this.basesNames = Calculations.loadBaseNameArray("names",this);
+		this.basesValues = Calculations.loadBaseValueArray("values",this);*/
 
 		this.zoomed = false;
 
@@ -74,6 +91,9 @@ public class DisplayActivity extends Activity implements OnTouchListener, Notice
 
 		myImageButton zoomBtn = (myImageButton)findViewById(R.id.zoom_button);
 		zoomBtn.setStrategy(new ZoomListener(this));
+
+		myImageButton addBaseBtn = (myImageButton)findViewById(R.id.add_base_button);
+		addBaseBtn.setStrategy(new AddNewBaseListener(this));
 
 		Bundle bundle = getIntent().getExtras();
 		Uri selectedImage = (Uri) bundle.get("imageUri");
@@ -147,13 +167,24 @@ public class DisplayActivity extends Activity implements OnTouchListener, Notice
 		}
 		// Commit the edits!
 		editor.commit();
+
+		Calculations.saveBaseNameArray(basesNames, "names", this);
+		Calculations.saveBaseValueArray(basesValues, "values", this);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		customView.resume();
+
+		this.basesNames = Calculations.loadBaseNameArray("names",this);
+		this.basesValues = Calculations.loadBaseValueArray("values",this);
+
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+		baseType = settings.getInt("baseType", 0);
+		unitType = settings.getInt("unitType", 0);
+		unit = settings.getString("unit", "cm");
+
 
 		int pointerListSize = settings.getInt("pointerListSize",1);
 
@@ -178,6 +209,8 @@ public class DisplayActivity extends Activity implements OnTouchListener, Notice
 
 			}
 		}
+
+
 		observer.update(0,0,0,0,0);
 
 	}
@@ -185,6 +218,9 @@ public class DisplayActivity extends Activity implements OnTouchListener, Notice
 	@Override
 	protected void onStop() {
 		super.onStop();
+
+		Calculations.saveBaseNameArray(basesNames, "names", this);
+		Calculations.saveBaseValueArray(basesValues, "values", this);
 
 		// We need an Editor object to make preference changes.
 		// All objects are from android.context.Context
@@ -196,6 +232,8 @@ public class DisplayActivity extends Activity implements OnTouchListener, Notice
 
 		// Commit the edits!
 		editor.commit();
+
+
 	}
 
 	@Override
@@ -215,7 +253,7 @@ public class DisplayActivity extends Activity implements OnTouchListener, Notice
 				boolean m = pointerList.get(i).checkMoving(event);
 				if( m == true) {
 					index = i;
-					PointerDialog dialogFragment = new PointerDialog();
+					PointerOptionsDialog dialogFragment = new PointerOptionsDialog();
 					dialogFragment.show(this.getFragmentManager(), "DialogFragment");
 					break;
 				}
@@ -306,32 +344,56 @@ public class DisplayActivity extends Activity implements OnTouchListener, Notice
 	@Override
 	public void onDialogPositiveClick(DialogFragment dialog) {
 
-		if(dialog instanceof BaseDialog) {
-			this.baseType = ((BaseDialog) (dialog)).getSelectedItem();
+		if(dialog instanceof ChooseBaseDialog) {
+			this.baseType = ((ChooseBaseDialog) (dialog)).getSelectedItem();
 			pointerList.set(0, new BasePointer(pointerList.get(0).getPoint1X(), pointerList.get(0).getPoint1Y(),
 					pointerList.get(0).getPoint2X(), pointerList.get(0).getPoint2Y(),
 					this, 0, observer, baseType));
 		}
 
-		if(dialog instanceof UnitDialog) {
+		if(dialog instanceof ChooseUnitDialog) {
 			Resources res = getResources();
 			String[] units = res.getStringArray(R.array.string_array_units);
-			this.unitType = ((UnitDialog) (dialog)).getSelectedItem();
+			this.unitType = ((ChooseUnitDialog) (dialog)).getSelectedItem();
 			this.unit = units[unitType];
 		}
 
-		if(dialog instanceof PointerDialog) {
-			int selected = ((PointerDialog) (dialog)).getSelectedItem();
+		if(dialog instanceof PointerOptionsDialog) {
+			int selected = ((PointerOptionsDialog) (dialog)).getSelectedItem();
 
 			switch (selected) {
-				case 0 : pointerList.get(index).rotateBitmap();
+				case 0 : pointerList.get(index).rotateBitmapRight();
 					break;
 
-				case 1 : if(index > 1 && index == pointerList.size() - 1)
+				case 1 : pointerList.get(index).rotateBitmapLeft();
+					break;
+
+				case 2 : if(index > 1 && index == pointerList.size() - 1)
 					pointerList.remove(index);
 					break;
 
 			}
+		}
+
+		if(dialog instanceof NewBaseDialog) {
+			int tabSize = this.basesNames.length;
+			String[] newNames = new String[tabSize+1];
+			float[] newValues = new float[tabSize+1];
+
+			for(int i = 0; i < tabSize; i++) {
+				newNames[i] = this.basesNames[i];
+				newValues[i] = this.basesValues[i];
+			}
+
+			newNames[tabSize] = ((NewBaseDialog) dialog).getName();
+			newValues[tabSize] = ((NewBaseDialog) dialog).getLength();
+
+			Calculations.saveBaseNameArray(newNames,"names",this.getApplicationContext());
+			this.basesNames = Calculations.loadBaseNameArray("names",this.getApplicationContext());
+
+			Calculations.saveBaseValueArray(newValues,"values",this.getApplicationContext());
+			this.basesValues = Calculations.loadBaseValueArray("values",this.getApplicationContext());
+
 		}
 		observer.update(0,0,0,0,0);
 	}

@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/rotate_right"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:text="Rotate right"
+        android:drawableRight="@drawable/rotate_right"
+        android:drawablePadding="3dp"
+        android:textSize="24sp"/>
+
+    <Button
+        android:id="@+id/rotate_left"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="Rotate left"
+        android:drawableRight="@drawable/rotate_left"
+        android:drawablePadding="3dp"
+        android:textSize="24sp"/>
+    <Button
+        android:id="@+id/delete_pointer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="Delete"
+        android:drawableRight="@drawable/delete"
+        android:textSize="24sp"/>
+</LinearLayout>

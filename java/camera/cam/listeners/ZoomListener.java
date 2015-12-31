@@ -1,10 +1,8 @@
 package camera.cam.listeners;
 
-import android.app.Activity;
 import android.view.View;
 
 import camera.cam.DisplayActivity;
-import camera.cam.dialogs.UnitDialog;
 import camera.cam.interfaces.myOnClickListener;
 
 public class ZoomListener implements myOnClickListener {

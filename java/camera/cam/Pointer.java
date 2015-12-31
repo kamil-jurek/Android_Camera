@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import camera.cam.interfaces.Observer;
 import camera.cam.interfaces.Statelike;
@@ -108,7 +109,7 @@ public class Pointer implements Subject {
     }
 
     public void setNewCoordinates(MotionEvent event) {
-        myState.setNewCoordinates(this,event);
+        myState.setNewCoordinates(this, event);
     }
 
     public int dp2px(int dp) {
@@ -186,7 +187,7 @@ public class Pointer implements Subject {
         return this.bPoint2;
     }
 
-    public void rotateBitmap() {
+    public void rotateBitmapRight() {
         Matrix matrix = new Matrix();
         matrix.postRotate(90);
 
@@ -196,12 +197,41 @@ public class Pointer implements Subject {
         rotation = (rotation + 1) % 4;
         switch (rotation) {
             case 0 : setState(new StateTop());
+
                 break;
             case 1 : setState(new StateRight());
+
                 break;
             case 2 : setState(new StateBottom());
+
                 break;
             case 3 : setState(new StateLeft());
+
+                break;
+
+        }
+    }
+
+    public void rotateBitmapLeft() {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(-90);
+
+        bPoint1 = Bitmap.createBitmap(bPoint1 , 0, 0, bPoint1.getWidth(), bPoint1.getHeight(), matrix, true);
+        bPoint2 = Bitmap.createBitmap(bPoint2 , 0, 0, bPoint2.getWidth(), bPoint2.getHeight(), matrix, true);
+
+        rotation = (rotation+4 - 1) % 4;
+        switch (rotation) {
+            case 0 : setState(new StateTop());
+
+                break;
+            case 1 : setState(new StateRight());
+
+                break;
+            case 2 : setState(new StateBottom());
+
+                break;
+            case 3 : setState(new StateLeft());
+
                 break;
 
         }

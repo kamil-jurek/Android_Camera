@@ -17,9 +17,9 @@ public class StateTop implements Statelike {
 
         float x1,x2,y1,y2;
         x1 = pointer.getPoint1X() + pointer.getRange() / 2;
-        y1 = pointer.getPoint1Y() + pointer.getRange() - pointer.RANGE/20;
+        y1 = pointer.getPoint1Y() + pointer.getRange();// - pointer.RANGE/20;
         x2 = pointer.getPoint2X() + pointer.getRange() / 2;
-        y2 = pointer.getPoint2Y() + pointer.getRange() - pointer.RANGE/20;
+        y2 = pointer.getPoint2Y() + pointer.getRange();// - pointer.RANGE/20;
 
         Path path = new Path();
         path.moveTo(x1, y1);
@@ -41,15 +41,15 @@ public class StateTop implements Statelike {
             Bitmap b = Calculations.addWhiteBorder(pointer.activity.bitmap, pointer.getRange() / 2);
 
             Bitmap resizedBitmap = Bitmap.createBitmap(b,
-                    (int) (pointer.getPoint1X()),
+                    (int) (pointer.getPoint1X() - pointer.getRange()/20),
                     (int) (pointer.getPoint1Y() + pointer.getRange()), pointer.getRange(), pointer.getRange(), matrix, true);;
             if (pointer.getMoving1()) {
                 resizedBitmap = Bitmap.createBitmap(b,
-                        (int) (pointer.getPoint1X()),
+                        (int) (pointer.getPoint1X()- pointer.getRange()/20),
                         (int) (pointer.getPoint1Y() + pointer.getRange()), pointer.getRange(), pointer.getRange(), matrix, true);
             } else if (pointer.getMoving2()) {
                 resizedBitmap = Bitmap.createBitmap(b,
-                        (int) (pointer.getPoint2X()),
+                        (int) (pointer.getPoint2X()- pointer.getRange()/20),
                         (int) (pointer.getPoint2Y() + pointer.getRange()), pointer.getRange(), pointer.getRange(), matrix, true);
             }
 

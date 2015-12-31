@@ -10,8 +10,13 @@
      <string name="button_directory">Directory</string>
     <string name="image_cd_camera">Description of some kind...</string>
     <string name="title_activity_display">DisplayActivity</string>
+
+    <string name="base_name">Name</string>
+    <string name="base_length">Lenght (cm)</string>
+
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+
     <string name="manual">Manual: \n
                           1. Object you wish to measure and the object of known length (Base Item) are in the same picture.\n
                           2. It is advised to use the Base Item which is closest in size to the object you wish to measure.\n

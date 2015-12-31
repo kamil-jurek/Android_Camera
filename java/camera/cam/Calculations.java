@@ -1,6 +1,8 @@
 package camera.cam;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -44,4 +46,46 @@ public class Calculations {
         return bmpWithBorder;
     }
 
+    public static boolean saveBaseNameArray(String[] array, String arrayName, Context mContext) {
+        SharedPreferences prefs = mContext.getSharedPreferences("bases", 0);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(arrayName + "_size", array.length);
+        for(int i=0;i<array.length;i++)
+            editor.putString(arrayName + "_" + i, array[i]);
+        return editor.commit();
+    }
+
+    public static boolean saveBaseValueArray(float[] array, String arrayName, Context mContext) {
+        SharedPreferences prefs = mContext.getSharedPreferences("bases", 0);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(arrayName + "_size", array.length);
+        for(int i=0;i<array.length;i++)
+            editor.putFloat(arrayName + "_" + i, array[i]);
+        return editor.commit();
+    }
+
+    public static String[] loadBaseNameArray(String arrayName, Context mContext) {
+        SharedPreferences prefs = mContext.getSharedPreferences("bases", 0);
+        int size = prefs.getInt(arrayName + "_size", 0);
+        String array[] = new String[size];
+        for(int i=0;i<size;i++)
+            array[i] = prefs.getString(arrayName + "_" + i, null);
+        return array;
+    }
+
+    public static float[] loadBaseValueArray(String arrayName, Context mContext) {
+        SharedPreferences prefs = mContext.getSharedPreferences("bases", 0);
+        int size = prefs.getInt(arrayName + "_size", 0);
+        float array[] = new float[size];
+        for(int i=0;i<size;i++)
+            array[i] = prefs.getFloat(arrayName + "_" + i, 0);
+        return array;
+    }
+
+    public static void deleteSharedPreferences(String sharedPreferencesName, String arrayName, Context mContext) {
+        SharedPreferences prefs = mContext.getSharedPreferences(sharedPreferencesName, 0);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
+        editor.commit();
+    }
 }

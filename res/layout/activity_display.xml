@@ -38,35 +38,48 @@
             android:layout_height="40dp"
             android:id="@+id/settings_button"
             android:background="@drawable/settings_image"
-            android:layout_below="@+id/unit_button"
-            android:layout_alignLeft="@+id/unit_button"
-            android:layout_marginTop="20dp" />
+            android:layout_below="@+id/add_button"
+            android:layout_alignLeft="@+id/add_button"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"/>
 
         <camera.cam.buttons.myImageButton
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/unit_button"
             android:background="@drawable/unit_image"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_above="@+id/add_button"
+            android:layout_alignLeft="@+id/add_button"
+            android:layout_marginBottom="15dp"/>
 
         <camera.cam.buttons.myImageButton
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/add_button"
             android:background="@drawable/add_point_image"
-            android:layout_above="@+id/unit_button"
-            android:layout_alignLeft="@+id/unit_button"
-            android:layout_marginBottom="20dp" />
+
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+             />
 
         <camera.cam.buttons.myImageButton
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/zoom_button"
             android:background="@drawable/zoom_image"
-            android:layout_above="@+id/add_button"
+            android:layout_above="@+id/unit_button"
+            android:layout_alignLeft="@+id/add_button"
+            android:layout_marginBottom="15dp"
+            />
+
+        <camera.cam.buttons.myImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/add_base_button"
+            android:background="@drawable/add_base_image"
+            android:layout_below="@+id/settings_button"
             android:layout_alignLeft="@+id/unit_button"
-            android:layout_marginBottom="20dp" />
+             />
     </RelativeLayout>
 
 
