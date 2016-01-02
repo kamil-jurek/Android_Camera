@@ -7,9 +7,9 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.view.MotionEvent;
 
-import camera.cam.interfaces.Statelike;
+import camera.cam.interfaces.PointerState;
 
-public class StateTop implements Statelike {
+public class StateTop implements PointerState {
     @Override
     public void drawPointer(Canvas canvas, Pointer pointer) {
         canvas.drawBitmap(pointer.getPoint1Bitmap(), pointer.getPoint1X(), pointer.getPoint1Y(), null);
@@ -17,9 +17,9 @@ public class StateTop implements Statelike {
 
         float x1,x2,y1,y2;
         x1 = pointer.getPoint1X() + pointer.getRange() / 2;
-        y1 = pointer.getPoint1Y() + pointer.getRange();// - pointer.RANGE/20;
+        y1 = pointer.getPoint1Y() + pointer.getRange();
         x2 = pointer.getPoint2X() + pointer.getRange() / 2;
-        y2 = pointer.getPoint2Y() + pointer.getRange();// - pointer.RANGE/20;
+        y2 = pointer.getPoint2Y() + pointer.getRange();
 
         Path path = new Path();
         path.moveTo(x1, y1);

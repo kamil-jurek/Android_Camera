@@ -1,6 +1,5 @@
 package camera.cam;
 
-import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,11 +8,9 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.TypedValue;
 import android.view.MotionEvent;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
 import camera.cam.interfaces.Observer;
-import camera.cam.interfaces.Statelike;
+import camera.cam.interfaces.PointerState;
 import camera.cam.interfaces.Subject;
 
 public class Pointer implements Subject {
@@ -26,7 +23,7 @@ public class Pointer implements Subject {
     private Paint paint;
 
     private int rotation = 0;
-    private Statelike myState;
+    private PointerState myState;
 
     private Observer observer;
 
@@ -100,7 +97,7 @@ public class Pointer implements Subject {
      * Normally only called by classes implementing the State interface.
      * @param newState the new state of this context
      */
-    void setState(final Statelike newState) {
+    void setState(final PointerState newState) {
         myState = newState;
     }
 

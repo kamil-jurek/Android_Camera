@@ -7,9 +7,9 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.view.MotionEvent;
 
-import camera.cam.interfaces.Statelike;
+import camera.cam.interfaces.PointerState;
 
-public class StateBottom implements Statelike {
+public class StateBottom implements PointerState {
     @Override
     public void drawPointer(Canvas canvas, Pointer pointer) {
         canvas.drawBitmap(pointer.getPoint1Bitmap(), pointer.getPoint1X(), pointer.getPoint1Y(), null);
@@ -27,7 +27,7 @@ public class StateBottom implements Statelike {
 
         canvas.drawPath(path, pointer.getPaint());
 
-        if(pointer.getType()==0) {
+        if(pointer.getPointerType()==0) {
             // canvas.drawTextOnPath("karta kredytowa", pa, (float) Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2))/2-80,-5,paint);
         } else {
             canvas.drawTextOnPath(Calculations.calculateSize((BasePointer) (pointer.activity.pointerList.get(0)),

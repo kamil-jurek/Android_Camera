@@ -25,7 +25,7 @@ import camera.cam.dialogs.NewBaseDialog;
 import camera.cam.dialogs.PointerOptionsDialog;
 import camera.cam.dialogs.ChooseUnitDialog;
 import camera.cam.interfaces.NoticeDialogListener;
-import camera.cam.listeners.AddListener;
+import camera.cam.listeners.AddNewPointerListener;
 import camera.cam.listeners.AddNewBaseListener;
 import camera.cam.listeners.SettingsListener;
 import camera.cam.listeners.UnitListener;
@@ -84,7 +84,7 @@ public class DisplayActivity extends Activity implements OnTouchListener, Notice
 		unitBtn.setStrategy(new UnitListener(this));
 
 		myImageButton addBtn = (myImageButton)findViewById(R.id.add_button);
-		addBtn.setStrategy(new AddListener(this));
+		addBtn.setStrategy(new AddNewPointerListener(this));
 
 		myImageButton setBtn = (myImageButton)findViewById(R.id.settings_button);
 		setBtn.setStrategy(new SettingsListener(this));
@@ -282,7 +282,7 @@ public class DisplayActivity extends Activity implements OnTouchListener, Notice
 					break;
 				case MotionEvent.ACTION_UP:
 					for (Pointer p : pointerList) {
-						p.stopMoving(event);
+						p.stopMoving();
 					}
 					break;
 			}

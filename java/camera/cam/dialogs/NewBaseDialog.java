@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import camera.cam.Calculations;
 import camera.cam.DisplayActivity;
@@ -73,8 +71,8 @@ public class NewBaseDialog extends DialogFragment {
                             newValues[i] = ((DisplayActivity)(mListener)).basesValues[i];
                         }
 
-                        Calculations.deleteSharedPreferences("bases","names", ((DisplayActivity)(mListener)).getApplicationContext());
-                        Calculations.deleteSharedPreferences("bases","values,", ((DisplayActivity)(mListener)).getApplicationContext());
+                        Calculations.deleteSharedPreferences("bases", ((DisplayActivity)(mListener)).getApplicationContext());
+                        Calculations.deleteSharedPreferences("bases", ((DisplayActivity)(mListener)).getApplicationContext());
 
                         Calculations.saveBaseNameArray(newNames, "names",
                                 ((DisplayActivity)(mListener)).getApplicationContext());

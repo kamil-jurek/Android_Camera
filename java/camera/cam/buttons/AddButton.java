@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import camera.cam.DisplayActivity;
-import camera.cam.listeners.AddListener;
+import camera.cam.listeners.AddNewPointerListener;
 
 public class AddButton extends myImageButton {
 
@@ -16,6 +16,6 @@ public class AddButton extends myImageButton {
 
     public void setActivity(DisplayActivity act) {
         this.activity = act;
-        this.onClickLst = new AddListener(activity);
+        this.onClickLst = new AddNewPointerListener(activity);
     }
 }

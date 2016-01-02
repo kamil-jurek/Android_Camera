@@ -22,7 +22,7 @@ public class AddListener implements myOnClickListener {
             Pointer prev = activity.pointerList.get(activity.pointerList.size()-1);
             activity.pointerList.add(new Pointer(prev.getPoint1X(),prev.getPoint1Y()+prev.getRange(),
                                                 prev.getPoint2X(),prev.getPoint2Y()+prev.getRange(),
-                                                activity,prev.getType()+1,activity.observer));
+                                                activity,prev.getPointerType()+1,activity.observer));
 
             activity.observer.update(0,0,0,0,0);
         } else {
